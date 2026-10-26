@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smart Home</title>
+  <meta name="theme-color" content="#1f6f5c">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <header class="testata">
+    <div class="titolo">
+      <span class="logo">🏠</span>
+      <h1>Smart Home</h1>
+      <span id="sync" class="sync" title="Stato collegamento">●</span>
+    </div>
+    <div class="azioni">
+      <button id="btnTipo" class="btn-icona" aria-label="Settimana tipo">⚙️</button>
+      <button id="btnWa" class="btn-wa">WhatsApp</button>
+    </div>
+  </header>
+
+  <main>
+    <nav class="mese">
+      <button id="prec" class="freccia" aria-label="Mese precedente">‹</button>
+      <div class="mese-centro">
+        <h2 id="nomeMese"></h2>
+        <button id="oggi" class="link">Oggi</button>
+      </div>
+      <button id="succ" class="freccia" aria-label="Mese successivo">›</button>
+    </nav>
+
+    <div class="intestazione-giorni">
+      <span>Lun</span><span>Mar</span><span>Mer</span><span>Gio</span><span>Ven</span><span class="we">Sab</span><span class="we">Dom</span>
+    </div>
+    <div id="griglia" class="griglia"></div>
+    <p class="aiuto">Tocca un giorno per segnare la scelta qui sotto · tieni premuto per aprire le note</p>
+
+    <section class="riquadro">
+      <h3>Riepilogo del mese</h3>
+      <div id="riepilogo" class="riepilogo"></div>
+    </section>
+
+    <section class="riquadro">
+      <h3>Note e appuntamenti</h3>
+      <ul id="listaNote" class="lista-note"></ul>
+    </section>
+  </main>
+
+  <footer class="barra">
+    <div id="chi" class="gruppo"></div>
+    <div id="pennelli" class="gruppo pennelli"></div>
+  </footer>
+
+  <!-- dettaglio del giorno -->
+  <dialog id="dlgGiorno" class="foglio">
+    <form method="dialog">
+      <h3 id="dgTitolo"></h3>
+      <p id="dgFesta" class="festa-nome"></p>
+      <div id="dgPersone"></div>
+      <div class="bottoni">
+        <button value="annulla" class="secondario">Chiudi</button>
+        <button value="salva" id="dgSalva" class="primario">Salva</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- condivisione WhatsApp -->
+  <dialog id="dlgWa" class="foglio">
+    <form method="dialog">
+      <h3>Condividi su WhatsApp</h3>
+      <p class="sotto">Cosa vuoi mandare?</p>
+      <div class="scelte-wa">
+        <button value="settimana" class="primario grande">📅 Questa settimana</button>
+        <button value="prossima" class="primario grande">⏭️ Settimana prossima</button>
+        <button value="mese" class="primario grande">🗓️ Tutto il mese</button>
+      </div>
+      <div class="bottoni"><button value="annulla" class="secondario">Annulla</button></div>
+    </form>
+  </dialog>
+
+  <!-- settimane tipo -->
+  <dialog id="dlgTipo" class="foglio">
+    <form method="dialog">
+      <h3>Settimana tipo</h3>
+      <div id="tipoModo" class="gruppo modo">
+        <button type="button" data-alterna="0">Una settimana</button>
+        <button type="button" data-alterna="1">Due alternate (A/B)</button>
+      </div>
+      <p class="sotto">Tocca i giorni per scegliere 🏠 Smart, 🏢 Presenza, ❤️ L. 104 o vuoto. Con due settimane, A e B si alternano: per il 3+2 premi <b>Modello 3+2</b>.</p>
+      <div id="tipoPersone"></div>
+      <div class="periodo">
+        <label>Parte da<select id="tipoInizio"></select></label>
+        <label>Fino a<select id="tipoFino">
+          <option value="1">1 mese</option>
+          <option value="3">3 mesi</option>
+          <option value="6">6 mesi</option>
+          <option value="12">12 mesi</option>
+          <option value="anno">31 dicembre</option>
+        </select></label>
+        <label class="spunta"><input type="checkbox" id="tipoSostituisci"> Sostituisci anche Smart e Presenza già segnati</label>
+        <p class="sotto">Ferie, L. 104, festivi e note non vengono mai toccati.</p>
+      </div>
+      <div class="bottoni">
+        <button value="annulla" class="secondario">Chiudi</button>
+        <button value="applica" id="tipoApplica" class="primario">Applica</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="avviso" class="avviso" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
